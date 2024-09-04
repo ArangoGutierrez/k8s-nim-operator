@@ -200,16 +200,16 @@ $(LOCALBIN):
 
 ## Tool Binaries
 KUBECTL ?= kubectl
-KUSTOMIZE ?= $(LOCALBIN)/kustomize-$(KUSTOMIZE_VERSION)
-CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen-$(CONTROLLER_TOOLS_VERSION)
-ENVTEST ?= $(LOCALBIN)/setup-envtest-$(ENVTEST_VERSION)
-GOLANGCI_LINT = $(LOCALBIN)/golangci-lint-$(GOLANGCI_LINT_VERSION)
+KUSTOMIZE ?= $(LOCALBIN)/kustomize
+CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
+ENVTEST ?= $(LOCALBIN)/setup-envtest
+GOLANGCI_LINT = $(LOCALBIN)/golangci-lint
 
 ## Tool Versions
-KUSTOMIZE_VERSION ?= v5.4.1
-CONTROLLER_TOOLS_VERSION ?= v0.15.0
-ENVTEST_VERSION ?= release-0.18
-GOLANGCI_LINT_VERSION ?= v1.57.2
+KUSTOMIZE_VERSION ?= $(shell grep -E "kustomize/kustomize" deployments/devel/go.mod | grep -oE "v[0-9\.]+[0-9\.]+")
+CONTROLLER_TOOLS_VERSION ?= $(shell grep -E "sigs.k8s.io/controller-tools" deployments/devel/go.mod | grep -oE "v[0-9\.]+[0-9\.]+")
+ENVTEST_VERSION ?= $(shell grep -E "sigs.k8s.io/controller-runtime/tools/setup-envtest" deployments/devel/go.mod | grep -oE "v[0-9\.]+[0-9\.]+")
+GOLANGCI_LINT_VERSION ?= $(shell grep -E "golangci/golangci-lint" deployments/devel/go.mod | grep -oE "v[0-9\.]+[0-9\.]+")
 
 .PHONY: kustomize
 kustomize: $(KUSTOMIZE) ## Download kustomize locally if necessary.
